@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Provided by Burp at runtime via the Montoya API; must NOT be bundled into the jar.
+    compileOnly 'net.portswigger.burp.extensions:montoya-api:2026.7'
+}
+
+// Target Java 17 using whichever JDK (>= 17) runs the build, so no toolchain
+// auto-provisioning is needed on the build machine.
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('jar') {
+    archiveBaseName = 'BurpCloak'
+}
